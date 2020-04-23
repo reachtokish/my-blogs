@@ -1,4 +1,4 @@
-# Setup react with webpack and babel
+# Setup a basic react application with webpack and babel
 
 ![Setup react with webpack and babel](chris-henry-y1w8EXMDPxs-unsplash.jpg)
 *Photo by Chris Henry / @chrishenryphoto / Unsplash*
@@ -129,6 +129,41 @@ module.exports = {
 
 - `CleanWebpackPlugin` - This plugin first cleans the `/dist` folder and then put the bundled files inside that.
 - `HtmlWebpackPlugin` - This plugin generates the html file which helps to serve the webpack bundles.
+
+So the full `webpack.config.js` file should look like the following code now
+
+```js
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+module.exports = {
+  mode: 'development',
+  entry: './src/index.js',
+  devtool: 'inline-source-map',
+  output: {
+    filename: 'index.bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
+        }
+      }
+    ]
+  },
+  plugins: [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      template: './public/index.html'
+    })
+  ]
+};
+```
 
 Now we are done with the webpack setup. We have to make a very small babel setup. Create a `.babelrc` file in the root of our folder and paste the below code inside that
 
